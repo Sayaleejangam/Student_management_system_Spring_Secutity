@@ -5,9 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.technoelevet.StudentManagmentSystem.DTO.UserDTO;
+import com.technoelevet.StudentManagmentSystem.DTO.UserLogInDTO;
 import com.technoelevet.StudentManagmentSystem.Entity.User;
 import com.technoelevet.StudentManagmentSystem.Repository.UserRepository;
 
@@ -18,7 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
 	private UserRepository userRepository;
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
 	private UserDTO convertToDTO(User user) {
 		log.warn("Inside convert User to UserDto method");
@@ -36,8 +45,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO saveUser(UserDTO userDTO) {
+
 		log.warn("Inside Save User method");
 		User user = convertToEntity(userDTO);
+		String encode = bCryptPasswordEncoder.encode(user.getPassword());
+		user.setPassword(encode);
 		return convertToDTO(userRepository.save(user));
 	}
 
@@ -64,5 +76,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(int id) {
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public boolean veryfyUser(UserLogInDTO dto) {
+		Authentication authenticate = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(dto.getUserName(), dto.getPassword()));
+		if (authenticate.isAuthenticated())
+			return true;
+		else
+			return false;
 	}
 }

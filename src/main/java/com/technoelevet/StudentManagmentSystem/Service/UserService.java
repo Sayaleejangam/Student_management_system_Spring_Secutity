@@ -1,7 +1,9 @@
 package com.technoelevet.StudentManagmentSystem.Service;
 
-import com.technoelevet.StudentManagmentSystem.DTO.UserDTO;
 import java.util.List;
+
+import com.technoelevet.StudentManagmentSystem.DTO.UserDTO;
+import com.technoelevet.StudentManagmentSystem.DTO.UserLogInDTO;
 
 public interface UserService {
     UserDTO saveUser(UserDTO userDTO);
@@ -9,4 +11,5 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO updateUser(int id, UserDTO userDTO);
     void deleteUser(int id);
+	boolean veryfyUser(UserLogInDTO dto);
 }
