@@ -15,35 +15,43 @@ import org.springframework.web.bind.annotation.RestController;
 import com.technoelevet.StudentManagmentSystem.DTO.UserDTO;
 import com.technoelevet.StudentManagmentSystem.Service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return userService.saveUser(userDTO);
-    }
+	@PostMapping("/create")
+	public UserDTO createUser(@RequestBody UserDTO userDTO) {
+		log.warn("Inside Create User method");
+		return userService.saveUser(userDTO);
+	}
 
-    @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
-    }
+	@GetMapping("/{id}")
+	public UserDTO getUserById(@PathVariable int id) {
+		log.warn("Inside get  User by Id method");
+		return userService.getUserById(id);
+	}
 
-    @GetMapping
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
-    }
+	@GetMapping
+	public List<UserDTO> getAllUsers() {
+		log.warn("Inside get All User method");
+		return userService.getAllUsers();
+	}
 
-    @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO);
-    }
+	@PutMapping("/{id}")
+	public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+		log.warn("Inside update User by Id method");
+		return userService.updateUser(id, userDTO);
+	}
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
-    }
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable int id) {
+		log.warn("Inside delete User method");
+		userService.deleteUser(id);
+	}
 }

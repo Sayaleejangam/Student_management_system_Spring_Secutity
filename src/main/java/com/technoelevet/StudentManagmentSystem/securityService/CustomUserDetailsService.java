@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.technoelevet.StudentManagmentSystem.Entity.User;
+import com.technoelevet.StudentManagmentSystem.Entity.UserPrincipal;
 import com.technoelevet.StudentManagmentSystem.Repository.UserRepository;
 
 @Service
@@ -15,15 +16,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		User user = userRepository.findByUserName(username);
 		if (user == null) {
+			System.out.println("User Not Found");
 			throw new UsernameNotFoundException("User With Given UserName " + username + " Not Found");
-		} else {
-
 		}
-
-		return null;
+		return new UserPrincipal(user);
 	}
 
 }
