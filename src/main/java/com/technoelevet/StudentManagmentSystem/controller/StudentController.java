@@ -1,5 +1,7 @@
 package com.technoelevet.StudentManagmentSystem.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.technoelevet.StudentManagmentSystem.DTO.StudentDTO;
+import com.technoelevet.StudentManagmentSystem.Entity.Student;
 import com.technoelevet.StudentManagmentSystem.Responce.ResponcesStructure;
 import com.technoelevet.StudentManagmentSystem.Service.StudentService;
 
@@ -53,6 +56,14 @@ public class StudentController {
 		System.out.println(id);
 		StudentDTO stundents = studentService.getStundents(id);
 		return ResponseEntity.ok(new ResponcesStructure(false, "Student Details Added", stundents));
+
+	}
+
+	@GetMapping("/getStudents")
+	public ResponseEntity<ResponcesStructure> getAllStudents() {
+
+		List<StudentDTO> students = studentService.getAllStudents();
+		return ResponseEntity.ok(new ResponcesStructure(false, "Student Details Added", students));
 
 	}
 

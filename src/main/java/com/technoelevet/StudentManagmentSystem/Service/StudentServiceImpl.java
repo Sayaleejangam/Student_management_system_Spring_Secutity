@@ -1,5 +1,6 @@
 package com.technoelevet.StudentManagmentSystem.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -95,5 +96,23 @@ public class StudentServiceImpl implements StudentService {
 			throw new DataNotFoundException("Student With Given Id Ia Not present");
 		}
 	}
+
+	@Override
+	public List<StudentDTO> getAllStudents() {
+		List<Student> allStudents = studentRepository.findAll();
+		return allStudents.stream().map(student -> {
+			StudentDTO studentDTO = new StudentDTO();
+			BeanUtils.copyProperties(student, studentDTO);
+
+			if (student.getSchool() != null) {
+				SchoolDTO schoolDTO = new SchoolDTO();
+				BeanUtils.copyProperties(student.getSchool(), schoolDTO);
+				studentDTO.setSchoolDTO(schoolDTO);
+			}
+			return studentDTO;
+		}).toList();
+	}
+
+
 
 }
