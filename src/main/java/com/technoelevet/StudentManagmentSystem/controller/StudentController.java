@@ -5,21 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.technoelevet.StudentManagmentSystem.DTO.StudentDTO;
-import com.technoelevet.StudentManagmentSystem.Entity.Student;
 import com.technoelevet.StudentManagmentSystem.Responce.ResponcesStructure;
 import com.technoelevet.StudentManagmentSystem.Service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/student")
@@ -28,7 +27,7 @@ public class StudentController {
 	private StudentService studentService;
 
 	@PostMapping("/register")
-	public ResponseEntity<ResponcesStructure> registerStudent(@RequestBody StudentDTO studentDTO) {
+	public ResponseEntity<ResponcesStructure> registerStudent(@Valid @RequestBody StudentDTO studentDTO) {
 		return ResponseEntity
 				.ok(new ResponcesStructure(false, "Student Details Added", studentService.registerStudent(studentDTO)));
 

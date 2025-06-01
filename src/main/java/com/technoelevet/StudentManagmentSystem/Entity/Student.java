@@ -24,8 +24,8 @@ public class Student {
 	private String studentName;
 	private String dob;
 	private String standerd;
-	
+	private String phoneNumber;
 	@OneToOne
-	@JoinColumn(name="school_Id")
+	@JoinColumn(name = "school_Id")
 	private School school;
 }

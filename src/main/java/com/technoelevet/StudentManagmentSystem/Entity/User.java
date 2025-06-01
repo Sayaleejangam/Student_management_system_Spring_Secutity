@@ -22,5 +22,6 @@ public class User {
 	private String Password;
 	private String dob;
 	private String userRole;
+	private String phoneNumber;
 
 }

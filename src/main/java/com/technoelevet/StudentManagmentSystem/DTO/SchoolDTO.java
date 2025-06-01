@@ -1,5 +1,6 @@
 package com.technoelevet.StudentManagmentSystem.DTO;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SchoolDTO {
 
-	private Integer schoolId;
-	private String schoolName;
-	private String schoolCity;
-	
+    private Integer schoolId;
+
+    @NotBlank(message = "School name is required")
+    private String schoolName;
+
+    @NotBlank(message = "School city is required")
+    private String schoolCity;
 }

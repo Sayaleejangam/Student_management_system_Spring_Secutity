@@ -16,6 +16,7 @@ import com.technoelevet.StudentManagmentSystem.DTO.UserDTO;
 import com.technoelevet.StudentManagmentSystem.DTO.UserLogInDTO;
 import com.technoelevet.StudentManagmentSystem.Service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -27,20 +28,15 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/create")
-	public UserDTO createUser(@RequestBody UserDTO userDTO) {
+	public UserDTO createUser(@Valid @RequestBody UserDTO userDTO) {
 		log.warn("Inside Create User method");
 		return userService.saveUser(userDTO);
 	}
 
 	@PostMapping("/login")
-	public String login(@RequestBody UserLogInDTO dto) {
+	public String login( @Valid @RequestBody UserLogInDTO dto) {
 		log.warn("Inside login User method");
-		boolean veryfyUser = userService.veryfyUser(dto);
-		if (veryfyUser)
-			return "Hi " + dto.getUserName() + " You are Logged In Succsessfully";
-
-		else
-			return "Failed To LogIn Kindly Check Your Credentials before log In";
+		return userService.veryfyUser(dto);
 	}
 
 	@GetMapping("/{id}")

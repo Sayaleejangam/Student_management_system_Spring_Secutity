@@ -11,5 +11,5 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO updateUser(int id, UserDTO userDTO);
     void deleteUser(int id);
-	boolean veryfyUser(UserLogInDTO dto);
+	String veryfyUser(UserLogInDTO dto);
 }

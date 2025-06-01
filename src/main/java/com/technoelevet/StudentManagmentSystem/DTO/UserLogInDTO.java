@@ -1,20 +1,18 @@
 package com.technoelevet.StudentManagmentSystem.DTO;
 
-import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Data
 public class UserLogInDTO {
 
-	private String userName;
-	private String password;
+    @NotBlank(message = "Username is required")
+    private String userName;
 
+    @NotBlank(message = "Password is required")
+    private String password;
 }
