@@ -3,10 +3,10 @@ package com.technoelevet.StudentManagmentSystem.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,16 +27,23 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@SuppressWarnings("removal")
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(
-						auth -> auth.requestMatchers("/users/**").permitAll().anyRequest().authenticated())
-				.httpBasic(Customizer.withDefaults())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-				.build();
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    return http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/users/**").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/students/**").hasAnyRole("USER", "ADMIN").requestMatchers(HttpMethod.POST, "/students/**").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.PUT, "/students/**").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.DELETE, "/students/**").hasRole("ADMIN")
+	            .requestMatchers("/schools/**").hasRole("ADMIN")
+	            .anyRequest().authenticated())
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	        .build();
 	}
+
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
