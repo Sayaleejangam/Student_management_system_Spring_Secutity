@@ -13,14 +13,17 @@ public interface StudentService {
 
 	StudentDTO registerStudent(StudentDTO studentDTO);
 
-	public StudentDTO updateStudent(StudentDTO studentDTO);
+	StudentDTO updateStudent(StudentDTO studentDTO);
 
 	StudentDTO getStundents(int id);
 	List<StudentDTO> getAllStudentsWithSorting(String feild);
 	
 	List<StudentDTO> getAllStudents();
 	
-	public Page<Student> getAllStudentsWithPagination(int offSet, int pageSize) ;
+	Page<Student> getAllStudentsWithPagination(int offSet, int pageSize) ;
 
 	Page<StudentDTO> getAllStudentDTOsWithPagination(int offset, int pageSize);
+	
+	
+	Page<StudentDTO> getStudentsWithPaginationAndSorting(int pageNo, int pageSize, String feild);
 }

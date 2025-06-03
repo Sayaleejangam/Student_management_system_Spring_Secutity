@@ -155,5 +155,27 @@ public class StudentServiceImpl implements StudentService {
 
 	        return new PageImpl<>(dtoList, studentPage.getPageable(), studentPage.getTotalElements());
 	    }
+	 
+	 @Override
+	 public Page<StudentDTO> getStudentsWithPaginationAndSorting(int pageNo, int pageSize, String feild) {
+	     Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(feild).ascending());
+	     Page<Student> studentPage = studentRepository.findAll(pageable);
+
+	     List<StudentDTO> dtoList = studentPage.stream().map(student -> {
+	         StudentDTO dto = new StudentDTO();
+	         BeanUtils.copyProperties(student, dto);
+
+	         if (student.getSchool() != null) {
+	             SchoolDTO schoolDTO = new SchoolDTO();
+	             BeanUtils.copyProperties(student.getSchool(), schoolDTO);
+	             dto.setSchoolDTO(schoolDTO);
+	         }
+
+	         return dto;
+	     }).collect(Collectors.toList());
+
+	     return new PageImpl<>(dtoList, pageable, studentPage.getTotalElements());
+	 }
+
 
 }

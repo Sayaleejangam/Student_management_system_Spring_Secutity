@@ -92,4 +92,13 @@ public class StudentController {
 		return ResponseEntity.ok(students);
 	}
 
+//getAllStudentDTOsWithPagination
+	@GetMapping("/sortedAndPaginated/{offSet}/{pageSize}/{feild}")
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	public ResponseEntity<Page<StudentDTO>> getStudentsWithPagination(@PathVariable(name = "offSet") int offSet,
+			@PathVariable(name = "pageSize") int pageSize, @PathVariable(name = "feild") String feild) {
+
+ Page<StudentDTO> studentsWithPaginationAndSorting = studentService.getStudentsWithPaginationAndSorting(offSet, pageSize,feild);
+		return ResponseEntity.ok(studentsWithPaginationAndSorting);
+	}
 }
